@@ -65,7 +65,8 @@ def generate_turn(speaker: dict, messages: list[dict], force_summary: bool = Fal
     openai_messages = [
         {"role": "system", "content": system_prompt}
     ]
-    for msg in messages:
+    # Only include the last 3 messages to reduce token usage
+    for msg in messages[-3:]:
         role = "assistant" if msg.get('speaker') == speaker['name'] else "user"
         openai_messages.append({
             "role": role,
