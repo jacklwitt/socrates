@@ -1,0 +1,8 @@
+[general]
+allowNewFiles = false
+allowRefactors = false
+
+[files]
+# Only these files can be edited unless otherwise specified
+editable = ["main.py", "agents.py", "logic.py", "openai_client.py", "memory.py"]
+ignore = [".env"]
