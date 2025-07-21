@@ -60,7 +60,8 @@ def generate_turn(speaker: dict, messages: list[dict], force_summary: bool = Fal
         system_prompt = (
             f"You are {speaker['name']}, {speaker['background']}. Your stance: {stance}. "
             "Respond to the discussion in character. Keep your response brief (no more than 2 paragraphs, but as short as 1-2 sentences if that suffices). "
-            "Mimic a real-life debate: build on the previous points in the conversation—either answer the last message directly, return to the main point, add a new level of complexity, or introduce a new line of argument. Respond naturally, as if in a live discussion. Avoid unnecessary fluff or repetition; be concise and substantive."
+            "Mimic a real-life debate: build on the previous points in the conversation—either answer the last message directly, return to the main point, add a new level of complexity, or introduce a new line of argument. Respond naturally, as if in a live discussion. Avoid unnecessary fluff or repetition; be concise and substantive. "
+            "Importantly, back up your points with specific reasoning, concrete examples, statistics, or references to real-world events or studies whenever possible. Add substance to your arguments to make them more convincing and informative."
         )
     openai_messages = [
         {"role": "system", "content": system_prompt}
