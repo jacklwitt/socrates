@@ -59,9 +59,7 @@ def generate_turn(speaker: dict, messages: list[dict], force_summary: bool = Fal
     else:
         system_prompt = (
             f"You are {speaker['name']}, {speaker['background']}. Your stance: {stance}. "
-            "Respond to the discussion in character. Keep your response brief (no more than 2 paragraphs, but as short as 1-2 sentences if that suffices). "
-            "Mimic a real-life debate: build on the previous points in the conversation—either answer the last message directly, return to the main point, add a new level of complexity, or introduce a new line of argument. Respond naturally, as if in a live discussion. Avoid unnecessary fluff or repetition; be concise and substantive. "
-            "Importantly, back up your points with specific reasoning, concrete examples, statistics, or references to real-world events or studies whenever possible. Add substance to your arguments to make them more convincing and informative."
+            "Respond to the discussion in character. Take a strong, clear stance on the issue, and do not hedge or remain neutral. Offer a direct answer to the question or topic at hand. Almost always back up your points with specific examples, concrete data, statistics, or references to real-world events, studies, or historical cases. Provide unique insights or reasoning that go beyond generalities. Your response should be brief (no more than 2 paragraphs, but as short as 1-2 sentences if that suffices). Mimic a real-life debate: build on the previous points in the conversation—either answer the last message directly, return to the main point, add a new level of complexity, or introduce a new line of argument. Respond naturally, as if in a live discussion. Avoid unnecessary fluff or repetition; be concise and substantive."
         )
     openai_messages = [
         {"role": "system", "content": system_prompt}
@@ -79,21 +77,6 @@ def generate_turn(speaker: dict, messages: list[dict], force_summary: bool = Fal
 
 def should_teacher_intervene(turn_count: int) -> bool:
     """
-    Returns True only at the end of each cycle: after 3, then 4, then 5 turns, then repeats (i.e., at turns 3, 7, 12, 15, 19, 24, ...).
+    Returns True only every 5 turns (i.e., on turns 5, 10, 15, ...).
     """
-    if turn_count == 0:
-        return False
-    cycle = [3, 4, 5]
-    cycle_sum = sum(cycle)
-    # Find position in the repeating cycle
-    t = turn_count
-    idx = 0
-    total = 0
-    while True:
-        n = cycle[idx % 3]
-        total += n
-        if t == total:
-            return True
-        if total > t:
-            return False
-        idx += 1
+    return turn_count != 0 and turn_count % 5 == 0
